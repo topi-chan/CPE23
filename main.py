@@ -4,7 +4,7 @@ import sys
 def process_quoted_chars(s: str) -> str:
     """
     Process the quoted special characters in the input string.
-
+    Follows documentation: https://nvlpubs.nist.gov/nistpubs/Legacy/IR/nistir7695.pdf
     For CPE 2.3, the special characters (`*`, `?`, `-`, and `\`) may be quoted using
     the `\` character (Section 6.2.3 of CPE 2.3 Specification). This function returns
     a string where these quoted characters are processed and unquoted.
@@ -42,26 +42,27 @@ def bind_value_for_fs(v: str) -> str:
         return process_quoted_chars(v)
 
 
-def cpe23_to_dict(cpe23: str) -> dict:
+def cpe23_to_dict(cpe_string: str) -> dict:
     """
-    Convert a CPE 2.3 formatted string to its dictionary representation
-    (Section 6.2.2 of CPE 2.3 Specification).
+    Convert a CPE 2.3 formatted string into a dictionary representation.
+    The function follows the mapping given in section 6.2.2.3 of the official CPE Naming documentation.
 
-    The formatted string must conform to the CPE 2.3 specification. This function
-    returns a dictionary where the keys are CPE attributes and the values are
-    derived from the input string. Raises a ValueError if the input string is not
-    a valid CPE 2.3 formatted string.
+    :param cpe_string: A CPE 2.3 formatted string.
+    :return: Dictionary representation of the CPE string.
     """
-    # Ensure the CPE string starts with the required prefix (Section 6.2.2 of CPE 2.3 Specification)
-    if not cpe23.startswith("cpe:2.3:"):
-        raise ValueError("Niepoprawny ciąg CPE 2.3")
 
-    # Split the CPE string into its components
-    parts = cpe23[8:].split(":")
-    # Ensure there are exactly 11 components, as specified (Section 6.2.2 of CPE 2.3 Specification)
+    # Checking for proper CPE 2.3 URI format
+    if not cpe_string.startswith("cpe:2.3:"):
+        raise ValueError("Niepoprawny format CPE 2.3")
+
+    # Extracting components of the CPE 2.3 URI
+    parts = cpe_string[8:].split(":")
+
+    # A CPE 2.3 URI should split into 11 components for validation, as per the standard.
     if len(parts) != 11:
         raise ValueError("Niepoprawny ciąg CPE 2.3")
 
+    # Mapping parts of the CPE URI to their respective dictionary keys
     keys = [
         "part",
         "vendor",
@@ -76,7 +77,16 @@ def cpe23_to_dict(cpe23: str) -> dict:
         "other",
     ]
 
-    return {k: bind_value_for_fs(v) for k, v in zip(keys, parts)}
+    # Constructing the dictionary
+    cpe_dict = dict(zip(keys, parts))
+
+    # Translating values based on the standard.
+    # In section 6.2.2.3 of the documentation, it specifies how certain characters
+    # and patterns should be interpreted.
+    for key, value in cpe_dict.items():
+        cpe_dict[key] = value.replace("\\", "").replace("*", "ANY").replace("-", "NA")
+
+    return cpe_dict
 
 
 if __name__ == "__main__":
