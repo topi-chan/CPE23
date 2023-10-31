@@ -1,0 +1,6 @@
+cpe:2.3:a:microsoft:internet_explorer:8.0.6001:beta:*:*:*:*:*:*
+cpe:2.3:a:microsoft:internet_explorer:8.*:sp?:*:*:*:*:*:*
+cpe:2.3:a:microsoft:internet_explorer:8.\*:sp?:*:*:*:*:*:*
+cpe:2.3:a:hp:insight:7.4.0.1570:-:*:*:online:win2003:x64:*
+cpe:2.3:a:hp:openview_network_manager:7.51:*:*:*:*:linux:*:*
+cpe:2.3:a:foo\\bar:big\$money_2010:*:*:*:*:special:ipod_touch:80gb:*
