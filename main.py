@@ -24,24 +24,6 @@ def process_quoted_chars(s: str) -> str:
     return "".join(out)
 
 
-def bind_value_for_fs(v: str) -> str:
-    """
-    Bind the logical value in the CPE 2.3 name to its corresponding value
-    in the formatted string (FS) representation
-    (Section 6.2.2 of CPE 2.3 Specification).
-
-    For CPE 2.3, the logical value ANY binds to `*` in the FS, and NA binds
-    to `-`. All other values are left unchanged, except that quoted special
-    characters are processed and unquoted.
-    """
-    if v == "ANY":
-        return "*"
-    elif v == "NA":
-        return "-"
-    else:
-        return process_quoted_chars(v)
-
-
 def cpe23_to_dict(cpe_string: str) -> dict:
     """
     Convert a CPE 2.3 formatted string into a dictionary representation.
