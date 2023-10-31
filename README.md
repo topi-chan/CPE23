@@ -64,3 +64,4 @@ If you're using `zsh` (like the default shell in macOS), you might encounter iss
 ```bash
 noglob python main.py cpe:2.3:a:microsoft:internet_explorer:8.0.6001:beta:*:*:*:*:*:*
 ```
+It was tested on Python 3.10.5.
