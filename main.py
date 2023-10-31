@@ -40,7 +40,7 @@ def cpe23_to_dict(cpe_string: str) -> dict:
     # Extracting components of the CPE 2.3 URI
     parts = cpe_string[8:].split(":")
 
-    # A CPE 2.3 URI should split into 11 components for validation, as per the standard.
+    # A CPE 2.3 URI should split into 11 components for validation, as per the standard
     if len(parts) != 11:
         raise ValueError("Niepoprawny ciąg CPE 2.3")
 
@@ -64,7 +64,7 @@ def cpe23_to_dict(cpe_string: str) -> dict:
 
     # Translating values based on the standard.
     # In section 6.2.2.3 of the documentation, it specifies how certain characters
-    # and patterns should be interpreted.
+    # and patterns should be interpreted
     for key, value in cpe_dict.items():
         cpe_dict[key] = value.replace("\\", "").replace("*", "ANY").replace("-", "NA")
 
@@ -75,6 +75,7 @@ if __name__ == "__main__":
     # Ensure the user provides a CPE 2.3 string as an argument
     if len(sys.argv) < 2:
         print("Proszę podać ciąg CPE 2.3 jako argument.")
+        # Script exits with a non-zero exit status
         sys.exit(1)
 
     cpe_string = sys.argv[1]
